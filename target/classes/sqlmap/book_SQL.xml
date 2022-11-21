@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+    [참고 사이트 ] 마이바티스
+    - https://mybatis.org/mybatis-3/ko/getting-started.html
+    
+    마이바티스는 무엇일까요?
+    - 마이바티스는 개발자가 지정한 SQL, 저장 프로시져 그리고 몇가지 고급 매핑을 지원하는 퍼스스턴스 프레임워크이다.
+      마이바티스는 JDBC로 처리하는 상당 부분의 코드와 파라미터 설정 및 결과 매핑을 대신해줍니다.
+      마이바티스는 데이터베이스 레코드에 원시타입과 Map 인터페이스 그리고 자바 POJO를 설정해서
+      매핑하기 위해 XML과 어노테이션을 사용할 수 있습니다.
+      
+      ***POJO란?
+      - Plain old java object 란, 순수한 자바 객체를 말함
+       그리고 객체지향적인 원리에 충실하면서, 환경과 기술에 종속되지 않고 필요에 따라  재활용될 수 있는 방식으로 설계된 
+       오브젝트 객체지향원리를 기반으로 설계된 오브젝트(getter/setter을 이용한 VO)
+       
+       namespace 항목은 쿼리가 여려개 일 때 이름 공간(namespace)을 분리하는 역할을 한다.
+       쿼리 XML 파일은 보통 여러 개 생성되기 때문에 이를 구별하는 용도로 사용
+ -->
+<mapper namespace ="Book">
+	
+	<!-- 
+		데이터 입력 SQL 쿼리 작성방법
+		
+		INSERT INTO 테이블명(컬럼1,컬럼2..) VALUES(값1,값2..)
+		id 항목은 namespace 안에서 쿼리를 구분하는 유일한 식별자 역할을 합니다.
+		parameterType은 쿼리에 작용할파라미터 타입 (현재 Map 타입을 사용)
+		useGeneratedKeys와 keyProperty 는 하나의 쌍으로 작성
+		useGeneratedKeys 가 true 로 설정되면 mybatis는 insert 쿼리 실행후 생성된 pk를 파라미터 객체의
+		keyProperty 속성에 넣어줍니다 (예제를 통해 dao에서 확인 가능)
+		
+		useGeneratedKeys : 시퀀스로 자동 증가된 번호값을 가져올 것인지에 대한 여부 설정 
+		keyProperty : 여부 true 설정시 , 어떤 필드 값으로 받을 것인지 설정 
+		
+		mybatis는 쿼리를 실행할 때 파라미터를 치환하는데 #{title}은 파라미터로 입력된 키를 값으로 치환
+		map.get("title") == "제목" 형태가 mybatis 쿼리 xml에 전달되면 mybatis는 #{title}
+		
+		을 "제목"으로 자동 변환한다.
+		 #{title}, #{category}, #{price}  > {"제목","카테고리", 1000} 이렇게 치환
+		 
+		 
+		 <![CDATA[.. ]]> 항목은 원시(Raw)문자열을 나타내는데 , 해당 문자열 안에 '<','>' 등의 태그 문자가 
+		 있더라도 태그로 인식하지 않고 쿼리의 정상적인 형태로 인식할 수 있게 도와줍니다.
+		 
+	 -->
+	<insert id ="insert" parameterType="hashMap" useGeneratedKeys="true">
+		<selectKey keyProperty="book_id" resultType="int" order ="BEFORE">
+			SELECT SEQ_BOOK.NEXTVAL FROM DUAL
+		</selectKey>
+		<![CDATA[
+			INSERT INTO BOOK(
+					BOOK_ID, TITLE, CATEGORY, PRICE
+				) VALUES (
+					 #{book_id}, #{title}, #{category}, #{price}
+				)
+		]]>
+	</insert>
+
+</mapper>
