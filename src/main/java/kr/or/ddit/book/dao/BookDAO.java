@@ -59,4 +59,17 @@ public class BookDAO {
 		return sqlSessionTemplate.insert("Book.insert", map);
 	}
 	
+	public Map<String, Object> selectBook(Map<String, Object> map){
+		
+		/*
+		 	sqlSessionTemplate의 selectOne 메서드는 데이터를 한개만 가져올 때 사용
+		 	만약 쿼리 결과 행 수가 0개이면 selectOne 메서드는 null 반환하게 되고,
+		 	쿼리 결과가 여러개 이면 TooManyResultException 예외를 던진다
+		 	우리가 작성한 쿼리는 조건이 pk고 ,pk는 무조건 행이 유일함을 보장하기 때문에
+		 	결과는 0개 아니면 1개 
+		 */
+		
+		return sqlSessionTemplate.selectOne("Book.selectBook", map);
+	}
+	
 }

@@ -50,4 +50,17 @@ public class BookServiceImpl implements BookService {
 		return null;
 	}
 
+	/**
+	 *  <p>책 상세보기</p>
+	 *  @since SampleSpringYse 1.0
+	 *  @author ddit_ojh
+	 *  @param map 책ID
+	 *  @return ID에 해당하는 책 정보
+	 */
+	@Override
+	public Map<String, Object> selectBook(Map<String, Object> map) {
+		// 서비스 내 selectBook 함수는 dao를 호출한 결과를 바로 리턴하는 일만 한다
+		return bookDAO.selectBook(map);
+	}
+
 }

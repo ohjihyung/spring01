@@ -56,5 +56,20 @@
 				)
 		]]>
 	</insert>
-
+	<!-- 
+		데이터 조회 SQL 쿼리 작성방법
+			SELECT 
+		  BOOK_ID, TITLE, CATEGORY, PRICE, INSERT_DATE 
+		 FROM BOOK
+		  WHERE BOOK_ID = 1
+		 
+		 resultType은 SELECT 쿼리가 실행된 후 반환된 값을 담을 컨테이너 타입을 말합니다
+	
+	 -->
+	<select id = "selectBook" parameterType="hashMap" resultType="hashMap">
+		SELECT 
+		  BOOK_ID, TITLE, CATEGORY, PRICE, INSERT_DATE 
+		 FROM BOOK
+		  WHERE BOOK_ID = #{bookId}
+	</select>
 </mapper>
